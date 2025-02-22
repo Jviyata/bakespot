@@ -153,7 +153,11 @@
     </div>
     <section class="grid" id="gallery">
       <script>
-        let desserts = ["Cake", "Cookie", "Pie"];
+        let desserts = [
+          { name: "Cake", img: "cake.jpg" },
+          { name: "Cookie", img: "cookie.jpg" },
+          { name: "Pie", img: "pie.jpg" }
+        ];
         let gallery = document.getElementById('gallery');
         
         // Create 10 of each dessert
@@ -161,7 +165,7 @@
           desserts.forEach(dessert => {
             let div = document.createElement('div');
             div.className = 'gallery-item';
-            div.innerHTML = `<img src="https://via.placeholder.com/600x400?text=${dessert}" alt="${dessert}"><label>${dessert}</label>`;
+            div.innerHTML = `<img src="${dessert.img}" alt="${dessert.name}"><label>${dessert.name}</label>`;
             gallery.appendChild(div);
           });
         }
