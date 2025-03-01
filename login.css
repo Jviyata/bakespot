@@ -1,41 +1,43 @@
+/* Reset and Global Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 body {
-    font-family: sans-serif;
     color: #cfb991;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    position: relative; /* Enables stacking of content over the background image */
+    position: relative;
+    background-color: #121212; /* Fallback background */
 }
 
+/* Background Image */
 .background-image {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the screen */
-    z-index: -1; /* Places the image behind all other content */
+    object-fit: cover;
+    z-index: -1;
 }
 
+/* Navigation Bar */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.8);
     color: #cfb991;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 20px;
     z-index: 1000;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -55,43 +57,39 @@ body {
     font-weight: bold;
 }
 
-.nav-links {
-    display: flex;
-    gap: 15px;
-}
-
-.nav-links a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.nav-links a:hover {
-    background-color: #cfb991;
-    color: #000000;
-}
-
-main {
-    margin-top: 100px; /* Space for the fixed navbar */
+/* Welcome Header */
+.welcome-header {
+    position: relative;
     text-align: center;
-    width: 100%;
-    max-width: 400px; /* Makes the form narrower */
-    background-color: #28282B;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
-    position: relative; /* Ensures it stacks above the background image */
+    margin-top: 120px; /* Ensures spacing below navbar */
     z-index: 1;
 }
 
-h1 {
-    color: #cfb991;
-    margin-bottom: 20px;
+.welcome-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
+/* Main Content */
+main {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(40, 40, 43, 0.9); /* Slight transparency */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+/* Form Styles */
 form {
     display: flex;
     flex-direction: column;
@@ -101,26 +99,34 @@ form {
 label {
     text-align: left;
     font-size: 16px;
+    font-weight: bold;
     color: #cfb991;
 }
 
-input[type="text"],
-input[type="password"] {
+input {
     width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #1c1c1e;
+    color: #ffffff;
+    outline: none;
 }
 
+input:focus {
+    border-color: #cfb991;
+}
+
+/* Button Styles */
 button {
     background-color: #cfb991;
-    color: #ffffff;
+    color: #000;
     border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
+    border-radius: 5px;
+    padding: 12px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -129,12 +135,35 @@ button:hover {
     background-color: #b59c79;
 }
 
+/* Footer */
 footer {
     background-color: #000000;
     color: #cfb991;
     text-align: center;
-    padding: 10px 0;
-    margin-top: auto;
+    padding: 10px;
+    width: 100%;
     position: relative;
+    margin-top: auto;
     z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .logo-image {
+        height: 35px;
+    }
+
+    .welcome-header {
+        margin-top: 100px;
+    }
+
+    main {
+        width: 95%;
+    }
 }
