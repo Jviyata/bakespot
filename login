@@ -1,0 +1,73 @@
+:<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New User</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <!-- Background Image -->
+    <img src="Backroundimagebake.png" alt="Background Image" class="background-image">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="home_image">
+            <a href="index.html">
+                <img src="BAKESPOT.png" alt="BAKESPOT Logo" class="logo-image">
+            </a>
+            <span class="logo-text">Boiler Maker Social</span>
+        </div>
+    
+    </nav>
+
+    <!-- Welcome Header -->
+    <header class="welcome-header">
+        <h1>Welcome!</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>Create New User</h2>
+        <form id="createUserForm" onsubmit="return createNewUser(event)">
+            <label for="newUserName">Name:</label>
+            <input type="text" id="newUserName" name="newUserName" required>
+
+            <label for="newUserEmail">Email:</label>
+            <input type="email" id="newUserEmail" name="newUserEmail" required>
+
+            <label for="newUserPassword">Password:</label>
+            <input type="password" id="newUserPassword" name="newUserPassword" required>
+
+            <button type="submit">Create Account</button>
+        </form>
+    </main>
+    
+    <!-- JavaScript -->
+    <script>
+        function createNewUser(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const newUserName = document.getElementById("newUserName").value;
+            const newUserEmail = document.getElementById("newUserEmail").value;
+            const newUserPassword = document.getElementById("newUserPassword").value;
+
+            // Check if email is GMAIL
+            if (!newUserEmail.endsWith("@gmail.com")) {
+                alert("This social media app is for bakers only");
+                return false;
+            }
+
+            // Check if password is at least 8 characters long
+            if (newUserPassword.length < 8) {
+                alert("You have to have a password of at least 8 characters. You don't want to get hacked!");
+                return false;
+            }
+
+            // If everything is valid, show success message and redirect
+            alert("User created successfully!");
+            window.location.href = 'afterlogin.html'; // Redirect to afterlogin page
+        }
+    </script>
+</body>
+</html>
