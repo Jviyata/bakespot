@@ -22,6 +22,52 @@
             padding: 20px;
         }
 
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4a2025;
+            width: 100%;
+            padding: 15px 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo-image {
+            height: 50px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #b04c54;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #b04c54;
+            color: #4a2025;
+        }
+
+        /* Adjust main content to avoid overlap with navbar */
+        .main-content {
+            margin-top: 80px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .filter-container {
             display: flex;
             justify-content: center;
@@ -91,20 +137,32 @@
 </head>
 <body>
 
-    <div class="filter-container">
-        <div class="filter-buttons">
-            <button onclick="setFilter('Cake')">Cake</button>
-            <button onclick="setFilter('Cookie')">Cookie</button>
-            <button onclick="setFilter('Pie')">Pie</button>
-            <button onclick="setFilter('Treat')">Treat</button>
-            <button onclick="setFilter('')" class="active">All</button>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <img src="BAKESPOT.png" alt="BakeSpot Logo" class="logo-image">
+        <div class="nav-links">
+            <a href="#">Explore</a>
+            <a href="#">Recipes</a>
+            <a href="#">Profile</a>
         </div>
-        <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
+    </nav>
+
+    <div class="main-content">
+        <div class="filter-container">
+            <div class="filter-buttons">
+                <button onclick="setFilter('Cake')">Cake</button>
+                <button onclick="setFilter('Cookie')">Cookie</button>
+                <button onclick="setFilter('Pie')">Pie</button>
+                <button onclick="setFilter('Treat')">Treat</button>
+                <button onclick="setFilter('')" class="active">All</button>
+            </div>
+            <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
+        </div>
+
+        <div class="photo-grid" id="photoGrid"></div>
+
+        <p id="noResults" class="no-results" style="display: none;">No images found</p>
     </div>
-
-    <div class="photo-grid" id="photoGrid"></div>
-
-    <p id="noResults" class="no-results" style="display: none;">No images found</p>
 
     <script>
         const images = [
@@ -164,7 +222,6 @@
             }
         }
 
-        // Load images initially
         filterImages();
     </script>
 
