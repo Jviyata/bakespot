@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import 'styles.css';
+import './styles.css';
 
 const images = [
     ...Array(5).fill().map((_, i) => ({ src: `/images/cake${i + 1}.jpg`, alt: `Cake ${i + 1}`, category: 'Cake' })),
@@ -8,8 +8,8 @@ const images = [
     ...Array(5).fill().map((_, i) => ({ src: `/images/treat${i + 1}.jpg`, alt: `Treat ${i + 1}`, category: 'Treat' }))
 ];
 
-const shuffleArray = (array) => {
-    let shuffled = [...array];
+const shuffleImages = (array) => {
+    let shuffled = array.slice();
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -23,7 +23,7 @@ const PhotoGrid = () => {
     const [shuffledImages, setShuffledImages] = useState([]);
 
     useEffect(() => {
-        setShuffledImages(shuffleArray(images));
+        setShuffledImages(shuffleImages(images));
     }, []);
 
     const filteredImages = shuffledImages.filter(image => 
@@ -40,29 +40,29 @@ const PhotoGrid = () => {
                 </div>
                 <input 
                     type="text" 
-                    placeholder="Search by name..." 
+                    placeholder="Search images..." 
                     value={searchTerm} 
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-bar"
                 />
                 <div className="filters">
                     {['Cake', 'Cookie', 'Pie', 'Treat'].map(category => (
-                        <button 
-                            key={category} 
-                            onClick={() => setFilter(category)} 
-                            aria-label={`Filter by ${category}`}
-                        >
+                        <button key={category} onClick={() => setFilter(category)}>
                             {category}
                         </button>
                     ))}
-                    <button onClick={() => setFilter('')} aria-label="Show all items">All</button>
+                    <button onClick={() => setFilter('')}>All</button>
                 </div>
             </nav>
             
             <div className="photo-grid">
-                {filteredImages.map((image, index) => (
-                    <img key={index} src={image.src} alt={image.alt} className="photo-item" />
-                ))}
+                {filteredImages.length > 0 ? (
+                    filteredImages.map((image, index) => (
+                        <img key={index} src={image.src} alt={image.alt} className="photo-item" />
+                    ))
+                ) : (
+                    <p className="no-results">No images found</p>
+                )}
             </div>
         </div>
     );
