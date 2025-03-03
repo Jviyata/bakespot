@@ -121,10 +121,12 @@
 
     <script>
         const images = [
-            "Cake1.jpg", "Cake2.jpg", "Cake3.jpg", "Cake4.jpg", "Cake5.jpg",
-            "Cookie1.jpg", "Cookie2.jpg", "Cookie3.jpg", "Cookie4.jpg", "Cookie5.jpg",
-            "Pie1.jpg", "Pie2.jpg", "Pie3.jpg", "Pie4.jpg", "Pie5.jpg",
-            "Treat1.jpg", "Treat2.jpg", "Treat3.jpg", "Treat4.jpg", "Treat5.jpg"
+"Cake1.jpg", "Cookie1.jpg", "Pie1.jpg", "Treat1.jpg",  
+"Cake2.jpg", "Cookie2.jpg", "Pie2.jpg", "Treat2.jpg",  
+"Cake3.jpg", "Cookie3.jpg", "Pie3.jpg", "Treat3.jpg",  
+"Cake4.jpg", "Cookie4.jpg", "Pie4.jpg", "Treat4.jpg",  
+"Cake5.jpg", "Cookie5.jpg", "Pie5.jpg", "Treat5.jpg"
+
         ].map((src, index) => ({
             src, 
             alt: src.replace(/\..+$/, '').replace(/\d+/, ' $&'),
