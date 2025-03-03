@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import 'styles.css';
+import React, { useState, useEffect } from 'react';
+import './styles.css';
 
 const images = [
-    ...Array(5).fill().map((_, i) => ({ src: `cake${i + 1}.jpg`, alt: 'Cake', category: 'Cake' })),
-    ...Array(5).fill().map((_, i) => ({ src: `cookie${i + 1}.jpg`, alt: 'Cookie', category: 'Cookie' })),
-    ...Array(5).fill().map((_, i) => ({ src: `pie${i + 1}.jpg`, alt: 'Pie', category: 'Pie' })),
-    ...Array(5).fill().map((_, i) => ({ src: `treat${i + 1}.jpg`, alt: 'Treat', category: 'Treat' }))
+    ...Array(5).fill().map((_, i) => ({ src: `/images/cake${i + 1}.jpg`, alt: `Cake ${i + 1}`, category: 'Cake' })),
+    ...Array(5).fill().map((_, i) => ({ src: `/images/cookie${i + 1}.jpg`, alt: `Cookie ${i + 1}`, category: 'Cookie' })),
+    ...Array(5).fill().map((_, i) => ({ src: `/images/pie${i + 1}.jpg`, alt: `Pie ${i + 1}`, category: 'Pie' })),
+    ...Array(5).fill().map((_, i) => ({ src: `/images/treat${i + 1}.jpg`, alt: `Treat ${i + 1}`, category: 'Treat' }))
 ];
 
-// Shuffle images to ensure different types are not next to each other
 const shuffleArray = (array) => {
-    let shuffled = array.slice();
+    let shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -21,33 +20,45 @@ const shuffleArray = (array) => {
 const PhotoGrid = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState('');
-    
-    const filteredImages = shuffleArray(images.filter(image => 
+    const [shuffledImages, setShuffledImages] = useState([]);
+
+    useEffect(() => {
+        setShuffledImages(shuffleArray(images));
+    }, []);
+
+    const filteredImages = shuffledImages.filter(image => 
         image.alt.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filter === '' || image.category === filter)
-    ));
+        (filter === '' || image.category.toLowerCase() === filter.toLowerCase())
+    );
 
     return (
         <div className="container">
-            {/* Navigation Bar */}
             <nav className="navbar">
-                <img src="logo.png" alt="Logo" className="logo" />
+                <div className="home_image">
+                    <img src="/images/logo.png" alt="Website Logo" className="logo-image" />
+                    <span className="logo-text">Photo Grid</span>
+                </div>
                 <input 
                     type="text" 
-                    placeholder="Search..." 
+                    placeholder="Search by name..." 
                     value={searchTerm} 
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-bar"
                 />
                 <div className="filters">
-                    <button onClick={() => setFilter('Cake')}>Cake</button>
-                    <button onClick={() => setFilter('Cookie')}>Cookie</button>
-                    <button onClick={() => setFilter('Pie')}>Pie</button>
-                    <button onClick={() => setFilter('Treat')}>Treat</button>
-                    <button onClick={() => setFilter('')}>All</button>
+                    {['Cake', 'Cookie', 'Pie', 'Treat'].map(category => (
+                        <button 
+                            key={category} 
+                            onClick={() => setFilter(category)} 
+                            aria-label={`Filter by ${category}`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                    <button onClick={() => setFilter('')} aria-label="Show all items">All</button>
                 </div>
             </nav>
-
-            {/* Photo Grid */}
+            
             <div className="photo-grid">
                 {filteredImages.map((image, index) => (
                     <img key={index} src={image.src} alt={image.alt} className="photo-item" />
