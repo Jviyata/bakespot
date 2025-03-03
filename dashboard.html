@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css';
+import 'styles.css';
+
+const generateImages = (type, count) =>
+    Array.from({ length: count }, (_, i) => ({
+        src: `/images/${type.toLowerCase()}${i + 1}.jpg`,
+        alt: `${type} ${i + 1}`,
+        category: type
+    }));
 
 const images = [
-    ...Array(5).fill().map((_, i) => ({ src: `/images/cake${i + 1}.jpg`, alt: `Cake ${i + 1}`, category: 'Cake' })),
-    ...Array(5).fill().map((_, i) => ({ src: `/images/cookie${i + 1}.jpg`, alt: `Cookie ${i + 1}`, category: 'Cookie' })),
-    ...Array(5).fill().map((_, i) => ({ src: `/images/pie${i + 1}.jpg`, alt: `Pie ${i + 1}`, category: 'Pie' })),
-    ...Array(5).fill().map((_, i) => ({ src: `/images/treat${i + 1}.jpg`, alt: `Treat ${i + 1}`, category: 'Treat' }))
+    ...generateImages('Cake', 5),
+    ...generateImages('Cookie', 5),
+    ...generateImages('Pie', 5),
+    ...generateImages('Treat', 5)
 ];
 
 const shuffleImages = (array) => {
-    let shuffled = array.slice();
+    let shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -26,9 +33,13 @@ const PhotoGrid = () => {
         setShuffledImages(shuffleImages(images));
     }, []);
 
-    const filteredImages = shuffledImages.filter(image => 
+    const handleFilterClick = (category) => {
+        setFilter(prevFilter => (prevFilter === category ? '' : category));
+    };
+
+    const filteredImages = shuffledImages.filter(image =>
         image.alt.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filter === '' || image.category.toLowerCase() === filter.toLowerCase())
+        (filter === '' || image.category === filter)
     );
 
     return (
@@ -47,11 +58,18 @@ const PhotoGrid = () => {
                 />
                 <div className="filters">
                     {['Cake', 'Cookie', 'Pie', 'Treat'].map(category => (
-                        <button key={category} onClick={() => setFilter(category)}>
+                        <button 
+                            key={category} 
+                            onClick={() => handleFilterClick(category)}
+                            className={filter === category ? 'active' : ''}
+                            aria-pressed={filter === category}
+                        >
                             {category}
                         </button>
                     ))}
-                    <button onClick={() => setFilter('')}>All</button>
+                    <button onClick={() => setFilter('')} className={!filter ? 'active' : ''}>
+                        All
+                    </button>
                 </div>
             </nav>
             
@@ -63,6 +81,16 @@ const PhotoGrid = () => {
                 ) : (
                     <p className="no-results">No images found</p>
                 )}
+            </div>
+
+            {/* Display all image sources */}
+            <div className="image-list">
+                <h3>All Image Sources</h3>
+                <ul>
+                    {images.map((image, index) => (
+                        <li key={index}>{image.src}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
