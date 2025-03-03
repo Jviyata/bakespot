@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BakeSpot2</title>
+    <title>BakeSpot</title>
     <style>
         * {
             margin: 0;
@@ -21,13 +21,18 @@
             padding: 20px;
         }
         .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(60, 20, 25, 0.9);
+            color: #301517;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #f8f8f8;
-            padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 100%;
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0px 2px 4px rgba(60, 20, 25, 0.5);
         }
         .logo img {
             height: 50px;
@@ -38,13 +43,14 @@
             gap: 20px;
             margin: 0;
             padding: 0;
+            margin-left: auto;
         }
         .nav-links li {
             display: inline;
         }
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: #f8f8f8;
             font-size: 16px;
             font-weight: bold;
         }
@@ -57,35 +63,18 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 80px;
             width: 100%;
             max-width: 800px;
         }
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .filter-buttons button {
-            background-color: #301517;
-            color: #b04c54;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .filter-buttons button.active {
-            background-color: #4a2025;
-        }
-        .search-bar {
+        select, .search-bar {
             padding: 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
             outline: none;
-            width: 200px;
-            background-color: #f8f8f8;
-            color: #301517;
+            background-color: #4a2025;
+            color: #f8f8f8;
         }
         .photo-grid {
             display: grid;
@@ -102,13 +91,6 @@
             border-radius: 5px;
             box-shadow: 0px 2px 4px rgba(48, 21, 23, 0.7);
         }
-        .no-results {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -124,13 +106,13 @@
     </nav>
 
     <div class="filter-container">
-        <div class="filter-buttons">
-            <button onclick="setFilter('Cake')">Cake</button>
-            <button onclick="setFilter('Cookie')">Cookie</button>
-            <button onclick="setFilter('Pie')">Pie</button>
-            <button onclick="setFilter('Treat')">Treat</button>
-            <button onclick="setFilter('')" class="active">All</button>
-        </div>
+        <select id="categoryFilter" onchange="filterImages()">
+            <option value="">All</option>
+            <option value="Cake">Cake</option>
+            <option value="Cookie">Cookie</option>
+            <option value="Pie">Pie</option>
+            <option value="Treat">Treat</option>
+        </select>
         <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
     </div>
 
@@ -139,30 +121,38 @@
 
     <script>
         const images = [
-            { src: "cake1.jpg", alt: "Cake 1", category: "Cake" },
-            { src: "cookie1.jpg", alt: "Cookie 1", category: "Cookie" },
-            { src: "pie1.jpg", alt: "Pie 1", category: "Pie" },
-            { src: "treat1.jpg", alt: "Treat 1", category: "Treat" },
-            { src: "cake2.jpg", alt: "Cake 2", category: "Cake" },
-            { src: "cookie2.jpg", alt: "Cookie 2", category: "Cookie" },
-            { src: "pie2.jpg", alt: "Pie 2", category: "Pie" },
-            { src: "treat2.jpg", alt: "Treat 2", category: "Treat" },
-            { src: "cake3.jpg", alt: "Cake 3", category: "Cake" },
-            { src: "cookie3.jpg", alt: "Cookie 3", category: "Cookie" },
-            { src: "pie3.jpg", alt: "Pie 3", category: "Pie" },
-            { src: "treat3.jpg", alt: "Treat 3", category: "Treat" },
-            { src: "cake4.jpg", alt: "Cake 4", category: "Cake" },
-            { src: "cookie4.jpg", alt: "Cookie 4", category: "Cookie" },
-            { src: "pie4.jpg", alt: "Pie 4", category: "Pie" },
-            { src: "treat4.jpg", alt: "Treat 4", category: "Treat" },
-            { src: "cake5.jpg", alt: "Cake 5", category: "Cake" },
-            { src: "cookie5.jpg", alt: "Cookie 5", category: "Cookie" },
-            { src: "pie5.jpg", alt: "Pie 5", category: "Pie" },
-            { src: "treat5.jpg", alt: "Treat 5", category: "Treat" }
-        ];
-        let filter = "";
-        function setFilter(category) {...}
-        function filterImages() {...}
+            "cake1.jpg", "cake2.jpg", "cake3.jpg", "cake4.jpg", "cake5.jpg",
+            "cookie1.jpg", "cookie2.jpg", "cookie3.jpg", "cookie4.jpg", "cookie5.jpg",
+            "pie1.jpg", "pie2.jpg", "pie3.jpg", "pie4.jpg", "pie5.jpg",
+            "treat1.jpg", "treat2.jpg", "treat3.jpg", "treat4.jpg", "treat5.jpg"
+        ].map((src, index) => ({
+            src, 
+            alt: src.replace(/\..+$/, '').replace(/\d+/, ' $&'),
+            category: src.match(/(cake|cookie|pie|treat)/i)[0]
+        }));
+
+        function filterImages() {
+            const category = document.getElementById("categoryFilter").value.toLowerCase();
+            const searchQuery = document.getElementById("searchBar").value.toLowerCase();
+            const grid = document.getElementById("photoGrid");
+            grid.innerHTML = "";
+            
+            const filteredImages = images.filter(img => 
+                (category === "" || img.category.toLowerCase() === category) && 
+                img.alt.toLowerCase().includes(searchQuery)
+            );
+            
+            filteredImages.forEach(img => {
+                const imageElement = document.createElement("img");
+                imageElement.src = img.src;
+                imageElement.alt = img.alt;
+                imageElement.classList.add("photo-item");
+                grid.appendChild(imageElement);
+            });
+            
+            document.getElementById("noResults").style.display = filteredImages.length ? "none" : "block";
+        }
+        
         filterImages();
     </script>
 </body>
