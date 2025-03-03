@@ -22,52 +22,6 @@
             padding: 20px;
         }
 
-        /* Navbar Styles */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #4a2025;
-            width: 100%;
-            padding: 15px 30px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .logo-image {
-            height: 50px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: #b04c54;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 8px 12px;
-            border-radius: 5px;
-        }
-
-        .nav-links a:hover {
-            background-color: #b04c54;
-            color: #4a2025;
-        }
-
-        /* Adjust main content to avoid overlap with navbar */
-        .main-content {
-            margin-top: 80px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
         .filter-container {
             display: flex;
             justify-content: center;
@@ -137,55 +91,40 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <img src="BAKESPOT.png" alt="BakeSpot Logo" class="logo-image">
-        <div class="nav-links">
-            <a href="#">Explore</a>
-            <a href="#">Recipes</a>
-            <a href="#">Profile</a>
+    <div class="filter-container">
+        <div class="filter-buttons">
+            <button onclick="setFilter('Cake')">Cake</button>
+            <button onclick="setFilter('Cookie')">Cookie</button>
+            <button onclick="setFilter('Pie')">Pie</button>
+            <button onclick="setFilter('Treat')">Treat</button>
+            <button onclick="setFilter('')" class="active">All</button>
         </div>
-    </nav>
-
-    <div class="main-content">
-        <div class="filter-container">
-            <div class="filter-buttons">
-                <button onclick="setFilter('Cake')">Cake</button>
-                <button onclick="setFilter('Cookie')">Cookie</button>
-                <button onclick="setFilter('Pie')">Pie</button>
-                <button onclick="setFilter('Treat')">Treat</button>
-                <button onclick="setFilter('')" class="active">All</button>
-            </div>
-            <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
-        </div>
-
-        <div class="photo-grid" id="photoGrid"></div>
-
-        <p id="noResults" class="no-results" style="display: none;">No images found</p>
+        <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
     </div>
 
+    <div class="photo-grid" id="photoGrid"></div>
+
+    <p id="noResults" class="no-results" style="display: none;">No images found</p>
+
     <script>
+        const repoUrl = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/bakespot/main/";
+
         const images = [
-            { src: "cake1.jpg", alt: "Cake 1", category: "Cake" },
-            { src: "cake2.jpg", alt: "Cake 2", category: "Cake" },
-            { src: "cake3.jpg", alt: "Cake 3", category: "Cake" },
-            { src: "cake4.jpg", alt: "Cake 4", category: "Cake" },
-            { src: "cake5.jpg", alt: "Cake 5", category: "Cake" },
-            { src: "cookie1.jpg", alt: "Cookie 1", category: "Cookie" },
-            { src: "cookie2.jpg", alt: "Cookie 2", category: "Cookie" },
-            { src: "cookie3.jpg", alt: "Cookie 3", category: "Cookie" },
-            { src: "cookie4.jpg", alt: "Cookie 4", category: "Cookie" },
-            { src: "cookie5.jpg", alt: "Cookie 5", category: "Cookie" },
-            { src: "pie1.jpg", alt: "Pie 1", category: "Pie" },
-            { src: "pie2.jpg", alt: "Pie 2", category: "Pie" },
-            { src: "pie3.jpg", alt: "Pie 3", category: "Pie" },
-            { src: "pie4.jpg", alt: "Pie 4", category: "Pie" },
-            { src: "pie5.jpg", alt: "Pie 5", category: "Pie" },
-            { src: "treat1.jpg", alt: "Treat 1", category: "Treat" },
-            { src: "treat2.jpg", alt: "Treat 2", category: "Treat" },
-            { src: "treat3.jpg", alt: "Treat 3", category: "Treat" },
-            { src: "treat4.jpg", alt: "Treat 4", category: "Treat" },
-            { src: "treat5.jpg", alt: "Treat 5", category: "Treat" }
+            { src: repoUrl + "Cake1.jpg", alt: "Cake 1", category: "Cake" },
+            { src: repoUrl + "Cake2.jpg", alt: "Cake 2", category: "Cake" },
+            { src: repoUrl + "Cake3.jpg", alt: "Cake 3", category: "Cake" },
+            { src: repoUrl + "Cake4.jpg", alt: "Cake 4", category: "Cake" },
+            { src: repoUrl + "Cake5.jpg", alt: "Cake 5", category: "Cake" },
+            { src: repoUrl + "Cookie1.jpg", alt: "Cookie 1", category: "Cookie" },
+            { src: repoUrl + "Cookie2.jpg", alt: "Cookie 2", category: "Cookie" },
+            { src: repoUrl + "Cookie3.jpg", alt: "Cookie 3", category: "Cookie" },
+            { src: repoUrl + "Cookie4.jpg", alt: "Cookie 4", category: "Cookie" },
+            { src: repoUrl + "Cookie5.jpg", alt: "Cookie 5", category: "Cookie" },
+            { src: repoUrl + "Pie1.jpg", alt: "Pie 1", category: "Pie" },
+            { src: repoUrl + "Pie2.jpg", alt: "Pie 2", category: "Pie" },
+            { src: repoUrl + "Pie3.jpg", alt: "Pie 3", category: "Pie" },
+            { src: repoUrl + "Pie4.jpg", alt: "Pie 4", category: "Pie" },
+            { src: repoUrl + "Pie5.jpg", alt: "Pie 5", category: "Pie" }
         ];
 
         let filter = "";
@@ -222,6 +161,7 @@
             }
         }
 
+        // Load images initially
         filterImages();
     </script>
 
