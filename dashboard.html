@@ -19,35 +19,21 @@
             flex-direction: column;
             align-items: center;
             background-color: #b04c54;
+            padding: 20px;
         }
 
-        .navbar {
-            width: 100%;
-            background-color: rgba(176, 76, 84, 0.8);
-            color: #301517;
+        .filter-container {
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            box-shadow: 0px 2px 4px rgba(176, 76, 84, 0.5);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .search-bar {
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #b04c54;
-            color: #301517;
-            outline: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
         }
 
         .filter-buttons {
-            margin-top: 80px;
             display: flex;
             gap: 10px;
         }
@@ -64,6 +50,17 @@
 
         .filter-buttons button.active {
             background-color: #4a2025;
+        }
+
+        .search-bar {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            width: 200px;
+            background-color: #f8f8f8;
+            color: #301517;
         }
 
         .photo-grid {
@@ -94,17 +91,15 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <span class="logo-text">Photo Grid</span>
+    <div class="filter-container">
+        <div class="filter-buttons">
+            <button onclick="setFilter('Cake')">Cake</button>
+            <button onclick="setFilter('Cookie')">Cookie</button>
+            <button onclick="setFilter('Pie')">Pie</button>
+            <button onclick="setFilter('Treat')">Treat</button>
+            <button onclick="setFilter('')" class="active">All</button>
+        </div>
         <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
-    </div>
-
-    <div class="filter-buttons">
-        <button onclick="setFilter('Cake')">Cake</button>
-        <button onclick="setFilter('Cookie')">Cookie</button>
-        <button onclick="setFilter('Pie')">Pie</button>
-        <button onclick="setFilter('Treat')">Treat</button>
-        <button onclick="setFilter('')" class="active">All</button>
     </div>
 
     <div class="photo-grid" id="photoGrid"></div>
