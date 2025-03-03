@@ -1,99 +1,177 @@
-import React, { useState, useEffect } from 'react';
-import 'styles.css';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Grid</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
 
-const generateImages = (type, count) =>
-    Array.from({ length: count }, (_, i) => ({
-        src: `/images/${type.toLowerCase()}${i + 1}.jpg`,
-        alt: `${type} ${i + 1}`,
-        category: type
-    }));
+        body {
+            color: #301517;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #b04c54;
+        }
 
-const images = [
-    ...generateImages('Cake', 5),
-    ...generateImages('Cookie', 5),
-    ...generateImages('Pie', 5),
-    ...generateImages('Treat', 5)
-];
+        .navbar {
+            width: 100%;
+            background-color: rgba(176, 76, 84, 0.8);
+            color: #301517;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            box-shadow: 0px 2px 4px rgba(176, 76, 84, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
 
-const shuffleImages = (array) => {
-    let shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-};
+        .search-bar {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #b04c54;
+            color: #301517;
+            outline: none;
+        }
 
-const PhotoGrid = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState('');
-    const [shuffledImages, setShuffledImages] = useState([]);
+        .filter-buttons {
+            margin-top: 80px;
+            display: flex;
+            gap: 10px;
+        }
 
-    useEffect(() => {
-        setShuffledImages(shuffleImages(images));
-    }, []);
+        .filter-buttons button {
+            background-color: #301517;
+            color: #b04c54;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    const handleFilterClick = (category) => {
-        setFilter(prevFilter => (prevFilter === category ? '' : category));
-    };
+        .filter-buttons button.active {
+            background-color: #4a2025;
+        }
 
-    const filteredImages = shuffledImages.filter(image =>
-        image.alt.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filter === '' || image.category === filter)
-    );
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
 
-    return (
-        <div className="container">
-            <nav className="navbar">
-                <div className="home_image">
-                    <img src="/images/logo.png" alt="Website Logo" className="logo-image" />
-                    <span className="logo-text">Photo Grid</span>
-                </div>
-                <input 
-                    type="text" 
-                    placeholder="Search images..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-bar"
-                />
-                <div className="filters">
-                    {['Cake', 'Cookie', 'Pie', 'Treat'].map(category => (
-                        <button 
-                            key={category} 
-                            onClick={() => handleFilterClick(category)}
-                            className={filter === category ? 'active' : ''}
-                            aria-pressed={filter === category}
-                        >
-                            {category}
-                        </button>
-                    ))}
-                    <button onClick={() => setFilter('')} className={!filter ? 'active' : ''}>
-                        All
-                    </button>
-                </div>
-            </nav>
-            
-            <div className="photo-grid">
-                {filteredImages.length > 0 ? (
-                    filteredImages.map((image, index) => (
-                        <img key={index} src={image.src} alt={image.alt} className="photo-item" />
-                    ))
-                ) : (
-                    <p className="no-results">No images found</p>
-                )}
-            </div>
+        .photo-item {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(48, 21, 23, 0.7);
+        }
 
-            {/* Display all image sources */}
-            <div className="image-list">
-                <h3>All Image Sources</h3>
-                <ul>
-                    {images.map((image, index) => (
-                        <li key={index}>{image.src}</li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
-};
+        .no-results {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+<body>
 
-export default PhotoGrid;
+    <div class="navbar">
+        <span class="logo-text">Photo Grid</span>
+        <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
+    </div>
+
+    <div class="filter-buttons">
+        <button onclick="setFilter('Cake')">Cake</button>
+        <button onclick="setFilter('Cookie')">Cookie</button>
+        <button onclick="setFilter('Pie')">Pie</button>
+        <button onclick="setFilter('Treat')">Treat</button>
+        <button onclick="setFilter('')" class="active">All</button>
+    </div>
+
+    <div class="photo-grid" id="photoGrid"></div>
+
+    <p id="noResults" class="no-results" style="display: none;">No images found</p>
+
+    <script>
+        const images = [
+            { src: "cake1.jpg", alt: "Cake 1", category: "Cake" },
+            { src: "cake2.jpg", alt: "Cake 2", category: "Cake" },
+            { src: "cake3.jpg", alt: "Cake 3", category: "Cake" },
+            { src: "cake4.jpg", alt: "Cake 4", category: "Cake" },
+            { src: "cake5.jpg", alt: "Cake 5", category: "Cake" },
+            { src: "cookie1.jpg", alt: "Cookie 1", category: "Cookie" },
+            { src: "cookie2.jpg", alt: "Cookie 2", category: "Cookie" },
+            { src: "cookie3.jpg", alt: "Cookie 3", category: "Cookie" },
+            { src: "cookie4.jpg", alt: "Cookie 4", category: "Cookie" },
+            { src: "cookie5.jpg", alt: "Cookie 5", category: "Cookie" },
+            { src: "pie1.jpg", alt: "Pie 1", category: "Pie" },
+            { src: "pie2.jpg", alt: "Pie 2", category: "Pie" },
+            { src: "pie3.jpg", alt: "Pie 3", category: "Pie" },
+            { src: "pie4.jpg", alt: "Pie 4", category: "Pie" },
+            { src: "pie5.jpg", alt: "Pie 5", category: "Pie" },
+            { src: "treat1.jpg", alt: "Treat 1", category: "Treat" },
+            { src: "treat2.jpg", alt: "Treat 2", category: "Treat" },
+            { src: "treat3.jpg", alt: "Treat 3", category: "Treat" },
+            { src: "treat4.jpg", alt: "Treat 4", category: "Treat" },
+            { src: "treat5.jpg", alt: "Treat 5", category: "Treat" }
+        ];
+
+        let filter = "";
+
+        function setFilter(category) {
+            filter = category;
+            document.querySelectorAll('.filter-buttons button').forEach(button => {
+                button.classList.toggle('active', button.textContent === category || (category === "" && button.textContent === "All"));
+            });
+            filterImages();
+        }
+
+        function filterImages() {
+            const searchTerm = document.getElementById("searchBar").value.toLowerCase();
+            const filteredImages = images.filter(image =>
+                image.alt.toLowerCase().includes(searchTerm) &&
+                (filter === "" || image.category === filter)
+            );
+
+            const photoGrid = document.getElementById("photoGrid");
+            photoGrid.innerHTML = "";
+
+            if (filteredImages.length > 0) {
+                filteredImages.forEach(image => {
+                    const imgElement = document.createElement("img");
+                    imgElement.src = image.src;
+                    imgElement.alt = image.alt;
+                    imgElement.className = "photo-item";
+                    photoGrid.appendChild(imgElement);
+                });
+                document.getElementById("noResults").style.display = "none";
+            } else {
+                document.getElementById("noResults").style.display = "block";
+            }
+        }
+
+        // Load images initially
+        filterImages();
+    </script>
+
+</body>
+</html>
