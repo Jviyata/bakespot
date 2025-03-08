@@ -67,14 +67,17 @@
             width: 100%;
             max-width: 800px;
         }
-        select, .search-bar {
-            padding: 10px;
+        .filter-button {
+            padding: 10px 20px;
             font-size: 16px;
             border: none;
             border-radius: 5px;
-            outline: none;
+            cursor: pointer;
             background-color: #4a2025;
             color: #f8f8f8;
+        }
+        .filter-button:hover {
+            background-color: #6a2a30;
         }
         .photo-grid {
             display: grid;
@@ -106,14 +109,11 @@
     </nav>
 
     <div class="filter-container">
-        <select id="categoryFilter" onchange="filterImages()">
-            <option value="">All</option>
-            <option value="Cake">Cake</option>
-            <option value="Cookie">Cookie</option>
-            <option value="Pie">Pie</option>
-            <option value="Treat">Treat</option>
-        </select>
-        <input type="text" id="searchBar" class="search-bar" placeholder="Search..." onkeyup="filterImages()">
+        <button class="filter-button" onclick="filterImages('')">All</button>
+        <button class="filter-button" onclick="filterImages('Cake')">Cake</button>
+        <button class="filter-button" onclick="filterImages('Cookie')">Cookie</button>
+        <button class="filter-button" onclick="filterImages('Pie')">Pie</button>
+        <button class="filter-button" onclick="filterImages('Treat')">International</button>
     </div>
 
     <div class="photo-grid" id="photoGrid"></div>
@@ -132,15 +132,12 @@
             category: src.match(/(cake|cookie|pie|treat)/i)[0]
         }));
 
-        function filterImages() {
-            const category = document.getElementById("categoryFilter").value.toLowerCase();
-            const searchQuery = document.getElementById("searchBar").value.toLowerCase();
+        function filterImages(category) {
             const grid = document.getElementById("photoGrid");
             grid.innerHTML = "";
             
             const filteredImages = images.filter(img => 
-                (category === "" || img.category.toLowerCase() === category) && 
-                img.alt.toLowerCase().includes(searchQuery)
+                category === "" || img.category.toLowerCase() === category.toLowerCase()
             );
             
             filteredImages.forEach(img => {
@@ -160,7 +157,7 @@
             document.getElementById("noResults").style.display = filteredImages.length ? "none" : "block";
         }
         
-        filterImages();
+        filterImages("");
     </script>
 </body>
 </html>
