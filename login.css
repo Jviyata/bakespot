@@ -6,13 +6,13 @@
 }
 
 body {
-    color: #b04c54; /* Changed from black to pink */
+    color: #301517;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    background-color: #FFF5E1; /* Changed from green to cream */
+    background-color: #b04c54; /* Fallback background */
 }
 
 /* Background Image */
@@ -26,29 +26,14 @@ body {
     z-index: -1;
 }
 
-/* Centering Image */
-.centered-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.centered-image img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
 /* Navigation Bar */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(255, 245, 225, 0.8); /* Keep original navbar */
-    color: #b04c54; /* Pink text */
+    background-color: rgba(176, 76, 84, 0.8);
+    color: #301517;
     display: flex;
     align-items: center;
     padding: 15px 20px;
@@ -75,7 +60,7 @@ body {
 .welcome-header {
     position: relative;
     text-align: center;
-    margin-top: 120px;
+    margin-top: 120px; /* Ensures spacing below navbar */
     z-index: 1;
 }
 
@@ -84,10 +69,59 @@ body {
     font-weight: bold;
 }
 
+/* Main Content */
+main {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(48, 21, 23, 0.9); /* Slight transparency */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(176, 76, 84, 0.7);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: white;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #b04c54;
+    color: #301517;
+    outline: none;
+}
+
+input:focus {
+    border-color: #301517;
+}
+
 /* Button Styles */
 button {
-    background-color: #FFF5E1; /* Cream */
-    color: #b04c54; /* Pink */
+    background-color: #301517;
+    color: #b04c54;
     border: none;
     border-radius: 5px;
     padding: 12px;
@@ -98,5 +132,42 @@ button {
 }
 
 button:hover {
-    background-color: #f5e0c5; /* Slightly darker cream */
+    background-color: #4a2025;
+}
+
+/* Footer */
+footer {
+    background-color: #b04c54;
+    color: #301517;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    margin-top: auto;
+    z-index: 1;
+}
+
+footer::after {
+    content: "© 2025 bakespot. All rights reserved.";
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .logo-image {
+        height: 35px;
+    }
+
+    .welcome-header {
+        margin-top: 100px;
+    }
+
+    main {
+        width: 95%;
+    }
 }
