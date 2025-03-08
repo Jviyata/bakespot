@@ -84,6 +84,10 @@
         }
         .map-container {
             margin-top: 30px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
         }
         iframe {
             width: 100%;
@@ -110,7 +114,7 @@
         <h3>Bakeries Near Me</h3>
         <div class="bakery-buttons" id="bakery-list"></div>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/search/san+francisco+bakeries/@37.7755995,-122.4615097,13z?entry=ttu&g_ep=EgoyMDI1MDMwNC4wIKXMDSoASAFQAw%3D%3D"></iframe>
+            <iframe src="https://www.google.com/maps/embed/v1/search?key=YOUR_GOOGLE_MAPS_API_KEY&q=bakeries+in+San+Francisco"></iframe>
         </div>
     </div>
 
@@ -121,8 +125,6 @@
             { name: "Tartine Bakery", url: "https://tartinebakery.com" },
             { name: "Golden Gate Bakery", url: "http://goldengatebakery.com" },
             { name: "Mr. Holmes Bakehouse", url: "https://www.mrholmesbakehouse.com" },
-            { name: "Jane The Bakery", url: "https://www.janebakerysf.com" },
-            { name: "Neighbor Bakehouse", url: "https://www.neighborbakehouse.com" },
             { name: "Noe Valley Bakery", url: "https://www.noevalleybakery.com" },
             { name: "La Boulangerie de San Francisco", url: "https://www.laboulangeriesf.com" },
             { name: "Schubert’s Bakery", url: "https://www.schuberts-bakery.com" }
