@@ -26,6 +26,21 @@ body {
     z-index: -1;
 }
 
+/* Centering Image */
+.centered-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.centered-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* Navigation Bar */
 .navbar {
     position: fixed;
@@ -120,8 +135,8 @@ input:focus {
 
 /* Button Styles */
 button {
-    background-color: #301517;
-    color: #b04c54;
+    background-color: #FFF5E1; /* Cream background */
+    color: #b04c54; /* Pink text */
     border: none;
     border-radius: 5px;
     padding: 12px;
@@ -132,7 +147,7 @@ button {
 }
 
 button:hover {
-    background-color: #4a2025;
+    background-color: #f5e0c5; /* Slightly darker cream */
 }
 
 /* Footer */
