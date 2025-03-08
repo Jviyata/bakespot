@@ -1,139 +1,129 @@
-import React, { useState } from "react";
-
-const initialRecipes = [
-  {
-    name: "Chocolate Chip Cookies",
-    ingredients: ["Flour", "Sugar", "Butter", "Chocolate Chips", "Eggs", "Baking Soda"],
-    instructions: "Mix ingredients. Scoop onto a baking sheet. Bake at 350°F for 10-12 minutes."
-  },
-  {
-    name: "Banana Bread",
-    ingredients: ["Bananas", "Flour", "Sugar", "Eggs", "Butter", "Baking Powder"],
-    instructions: "Mash bananas. Mix with other ingredients. Bake at 350°F for 50-60 minutes."
-  },
-  {
-    name: "Blueberry Muffins",
-    ingredients: ["Flour", "Sugar", "Eggs", "Butter", "Blueberries", "Baking Powder"],
-    instructions: "Mix ingredients. Pour into muffin tin. Bake at 375°F for 20-25 minutes."
-  },
-  {
-    name: "Cinnamon Rolls",
-    ingredients: ["Flour", "Sugar", "Yeast", "Butter", "Cinnamon", "Milk"],
-    instructions: "Prepare dough. Roll with cinnamon filling. Bake at 350°F for 25-30 minutes."
-  },
-  {
-    name: "Brownies",
-    ingredients: ["Chocolate", "Butter", "Sugar", "Flour", "Eggs", "Cocoa Powder"],
-    instructions: "Mix ingredients. Pour into pan. Bake at 350°F for 25-30 minutes."
-  },
-  {
-    name: "Pumpkin Pie",
-    ingredients: ["Pumpkin Puree", "Sugar", "Eggs", "Cinnamon", "Pie Crust", "Evaporated Milk"],
-    instructions: "Mix ingredients. Pour into crust. Bake at 375°F for 50-55 minutes."
-  },
-  {
-    name: "Lemon Bars",
-    ingredients: ["Flour", "Sugar", "Lemon Juice", "Eggs", "Butter", "Powdered Sugar"],
-    instructions: "Prepare crust. Add lemon filling. Bake at 350°F for 25-30 minutes."
-  },
-  {
-    name: "Cheesecake",
-    ingredients: ["Cream Cheese", "Sugar", "Eggs", "Vanilla Extract", "Graham Cracker Crust"],
-    instructions: "Mix filling. Pour into crust. Bake at 325°F for 45-50 minutes."
-  },
-  {
-    name: "Apple Pie",
-    ingredients: ["Apples", "Sugar", "Flour", "Cinnamon", "Pie Crust", "Butter"],
-    instructions: "Prepare apple filling. Fill crust. Bake at 375°F for 50-55 minutes."
-  }
-];
-
-const RecipesPage = () => {
-  const [recipes, setRecipes] = useState(initialRecipes);
-  const [likedRecipes, setLikedRecipes] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editedRecipe, setEditedRecipe] = useState(null);
-
-  const toggleLike = (index) => {
-    setLikedRecipes((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
-  const startEditing = (index) => {
-    setEditingIndex(index);
-    setEditedRecipe({ ...recipes[index] });
-  };
-
-  const saveEdit = (index) => {
-    const updatedRecipes = [...recipes];
-    updatedRecipes[index] = editedRecipe;
-    setRecipes(updatedRecipes);
-    setEditingIndex(null);
-    setEditedRecipe(null);
-  };
-
-  return (
-    <div className="min-h-screen flex flex-col items-center bg-[#b04c54] text-[#301517] p-4">
-      <nav className="fixed top-0 left-0 w-full bg-[#3C1419E6] text-[#f8f8f8] flex items-center justify-between p-4 shadow-md z-10">
-        <div className="logo">
-          <img src="BAKESPOT.png" alt="BakeSpot Logo" className="h-12" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Recipes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b04c54;
+            color: #301517;
+            text-align: center;
+            padding-top: 80px;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #3C1419E6;
+            color: #f8f8f8;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: #f8f8f8;
+            text-decoration: none;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .recipe {
+            background: #E0BFB8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .recipe ul {
+            list-style-position: inside; /* Ensures list markers are inside */
+            padding-left: 0; /* Removes any default padding */
+            text-align: left; /* Left aligns the ingredients */
+        }
+        .like-button {
+            background: pink;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="BAKESPOT.png" alt="BakeSpot Logo" height="40">
         </div>
-        <ul className="flex space-x-6">
-          <li><a href="explore.html" className="hover:text-[#E0BFB8]">Explore</a></li>
-          <li><a href="recipes.html" className="hover:text-[#E0BFB8]">Recipes</a></li>
-          <li><a href="profiles.html" className="hover:text-[#E0BFB8]">Profiles</a></li>
+        <ul>
+            <li><a href="explore.html">Explore</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="profiles.html">Profiles</a></li>
         </ul>
-      </nav>
-      <h1 className="text-3xl font-bold mt-20 mb-6">My Recipes</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-4/5 max-w-6xl">
-        {recipes.map((recipe, index) => (
-          <div key={index} className="border rounded-lg p-6 shadow-md bg-[#E0BFB8] bg-opacity-80 relative">
-            <button
-              className="absolute top-2 right-2 bg-gray-600 text-white px-2 py-1 rounded"
-              onClick={() => startEditing(index)}
-            >
-              ✎
-            </button>
-            {editingIndex === index ? (
-              <div>
-                <input
-                  className="w-full mb-2 p-1 border rounded"
-                  type="text"
-                  value={editedRecipe.name}
-                  onChange={(e) => setEditedRecipe({ ...editedRecipe, name: e.target.value })}
-                />
-                <textarea
-                  className="w-full mb-2 p-1 border rounded"
-                  value={editedRecipe.instructions}
-                  onChange={(e) => setEditedRecipe({ ...editedRecipe, instructions: e.target.value })}
-                />
-                <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={() => saveEdit(index)}>Save</button>
-              </div>
-            ) : (
-              <>
-                <h2 className="text-2xl font-semibold">{recipe.name}</h2>
-                <h3 className="mt-2 font-medium">Ingredients:</h3>
-                <ul className="list-disc list-inside">
-                  {recipe.ingredients.map((ingredient, i) => (
-                    <li key={i}>{ingredient}</li>
-                  ))}
-                </ul>
-                <h3 className="mt-2 font-medium">Instructions:</h3>
-                <p>{recipe.instructions}</p>
-              </>
-            )}
-            <button
-              onClick={() => toggleLike(index)}
-              className={`mt-4 px-4 py-2 rounded text-white ${likedRecipes.includes(index) ? "bg-pink-700" : "bg-pink-500"}`}
-            >
-              {likedRecipes.includes(index) ? "❤️ Liked" : "🤍 Like"}
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+    </nav>
+    
+    <h1>My Recipes</h1>
+    <div class="container" id="recipes-container"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const recipes = [
+                { name: "Chocolate Chip Cookies", ingredients: ["Flour", "Sugar", "Butter", "Chocolate Chips", "Eggs", "Baking Soda"], instructions: "Mix ingredients. Scoop onto a baking sheet. Bake at 350°F for 10-12 minutes." },
+                { name: "Banana Bread", ingredients: ["Bananas", "Flour", "Sugar", "Eggs", "Butter", "Baking Powder"], instructions: "Mash bananas. Mix with other ingredients. Bake at 350°F for 50-60 minutes." },
+                { name: "Blueberry Muffins", ingredients: ["Flour", "Sugar", "Eggs", "Butter", "Blueberries", "Baking Powder"], instructions: "Mix ingredients. Pour into muffin tin. Bake at 375°F for 20-25 minutes." },
+                { name: "Cinnamon Rolls", ingredients: ["Flour", "Sugar", "Yeast", "Butter", "Cinnamon", "Milk"], instructions: "Prepare dough. Roll with cinnamon filling. Bake at 350°F for 25-30 minutes." },
+                { name: "Brownies", ingredients: ["Chocolate", "Butter", "Sugar", "Flour", "Eggs", "Cocoa Powder"], instructions: "Mix ingredients. Pour into pan. Bake at 350°F for 25-30 minutes." },
+                { name: "Pumpkin Pie", ingredients: ["Pumpkin Puree", "Sugar", "Eggs", "Cinnamon", "Pie Crust", "Evaporated Milk"], instructions: "Mix ingredients. Pour into crust. Bake at 375°F for 50-55 minutes." },
+                { name: "Lemon Bars", ingredients: ["Flour", "Sugar", "Lemon Juice", "Eggs", "Butter", "Powdered Sugar"], instructions: "Prepare crust. Add lemon filling. Bake at 350°F for 25-30 minutes." },
+                { name: "Cheesecake", ingredients: ["Cream Cheese", "Sugar", "Eggs", "Vanilla Extract", "Graham Cracker Crust"], instructions: "Mix filling. Pour into crust. Bake at 325°F for 45-50 minutes." },
+                { name: "Apple Pie", ingredients: ["Apples", "Sugar", "Flour", "Cinnamon", "Pie Crust", "Butter"], instructions: "Prepare apple filling. Fill crust. Bake at 375°F for 50-55 minutes." }
+            ];
+            
+            function renderRecipes() {
+                const container = document.getElementById("recipes-container");
+                container.innerHTML = "";
+                recipes.forEach((recipe, index) => {
+                    const recipeCard = document.createElement("div");
+                    recipeCard.classList.add("recipe");
+                    recipeCard.innerHTML = `
+                        <h2>${recipe.name}</h2>
+                        <h3>Ingredients:</h3>
+                        <ul>${recipe.ingredients.map(ing => `<li>${ing}</li>`).join("")}</ul>
+                        <h3>Instructions:</h3>
+                        <p>${recipe.instructions}</p>
+                        <button class="like-button">🤍 Like</button>
+                    `;
+                    container.appendChild(recipeCard);
+                });
 
-export default RecipesPage;
+                // Add event listeners after rendering
+                const likeButtons = document.querySelectorAll(".like-button");
+                likeButtons.forEach((button, index) => {
+                    button.addEventListener("click", function() {
+                        toggleLike(index);
+                    });
+                });
+            }
+
+            function toggleLike(index) {
+                const likeButton = document.querySelectorAll(".like-button")[index];
+                likeButton.textContent = likeButton.textContent.includes("❤️") ? "🤍 Like" : "❤️ Liked";
+            }
+
+            renderRecipes();
+        });
+    </script>
+</body>
+</html>
