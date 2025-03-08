@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            color: #301517;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            background-color: #b04c54;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(176, 76, 84, 0.8);
+            color: #301517;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0px 2px 4px rgba(176, 76, 84, 0.5);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #f8f8f8;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #E0BFB8;
+        }
+
+        .container {
+            margin-top: 100px;
+            background-color: rgba(48, 21, 23, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(176, 76, 84, 0.7);
+            text-align: center;
+            color: white;
+        }
+
+        .profile-card {
+            margin-bottom: 20px;
+        }
+
+        .profile-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .gallery img {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(48, 21, 23, 0.7);
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+            }
+
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="BAKESPOT.png" alt="BakeSpot Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="explore.html">Explore</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="profiles.html">Profiles</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="profile-card">
+            <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
+            <img src="ref.png" alt="Profile Picture" id="profilePic">
+            <h2 contenteditable="true">Enter Name</h2>
+            <p contenteditable="true">Add your hometown</p>
+            <p>Followers: 4,570 | Following: 239</p>
+            <p class="about" contenteditable="true">Tell us about yourself!</p>
+        </div>
+        <div class="content-card">
+            <div class="section">
+                <h3>Recent Bakes</h3>
+                <div class="gallery">
+                    <img src="ref.png" alt="Cake">
+                    <img src="ref.png" alt="Cookies">
+                    <img src="ref.png" alt="Bread">
+                    <img src="ref.png" alt="Pie">
+                </div>
+            </div>
+            <div class="section">
+                <h3>Collections</h3>
+                <div class="gallery">
+                    <img src="ref.png" alt="Collection 1">
+                    <img src="ref.png" alt="Collection 2">
+                    <img src="ref.png" alt="Collection 3">
+                    <img src="ref.png" alt="Collection 4">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
